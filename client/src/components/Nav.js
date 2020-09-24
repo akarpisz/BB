@@ -115,7 +115,7 @@ export default function PersistentDrawerLeft() {
             BB
           </Typography>
         </Toolbar>
-      </AppBar>
+      
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -139,8 +139,8 @@ export default function PersistentDrawerLeft() {
           </ListItem>
           </Link>
           {["Sign In", "Sign up"].map((text, index) => (
-            <Link href={text.replace(" ","").toLowerCase()}>
-            <ListItem button key={text}>
+            <Link key={text} href={text.replace(" ","").toLowerCase()}>
+            <ListItem button >
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -148,15 +148,18 @@ export default function PersistentDrawerLeft() {
           ))}
         </List>
         <Divider />
-        {/* <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
+        <List>
+          {["About","Contact Developer" ].map((text, index) => (
+            <Link key={text} href={text.replace(" ","").toLowerCase()}>
+            <ListItem button >
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
+            </Link>
           ))}
-        </List> */}
+        </List>
       </Drawer>
+      </AppBar>
     </div>
   );
 }
