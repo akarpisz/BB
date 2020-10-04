@@ -1,7 +1,7 @@
 {
   "name": "bb",
   "version": "0.1.0",
-  "proxy":"https://localhost:4269",
+  "proxy": "https://localhost:4269",
   "private": false,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
