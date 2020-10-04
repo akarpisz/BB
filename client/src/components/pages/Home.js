@@ -33,7 +33,8 @@ const Home = () => {
             color="textSecondary"
             style={{ textAlign: "center" }}
           >
-            Welcome To BBoard &#x1F601;
+            Welcome To BBoard 
+            <span role="img" aria-label="smiling emoji">&#x1F601;</span>
           </Typography>
           <Divider />
           <Typography variant="h6" color="textSecondary">

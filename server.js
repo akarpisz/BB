@@ -5,7 +5,11 @@ const PORT = process.env.PORT || 4269;
 const db = require("./models/");
 const path = require("path");
 const apiRoutes = require("./controllers/api-routes");
+const cors = require("cors");
 
+app.use(cors());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 app.use("/api", apiRoutes);
 
 
