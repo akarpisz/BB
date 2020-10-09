@@ -3,20 +3,20 @@ const db = require("../models/");
 const uniqid = require("uniqid");
 
 router.post("/signup", (req, res)=>{
-const {firstName, lastName, email, password} = req.body
-console.log(req.body);
+    console.log(req.body);
+const user = req.body
+const userData = {
+    id: uniqid(),
+    email: user.email,
+    first_name: user.firstName,
+    last_name: user.lastName,
+    hashPass: user.password
+    }
 
-db.Users.create({
-id: uniqid(),
-email: email,
-first_name: firstName,
-last_name: lastName,
-hashPass: password
-}, (err, result)=>{
-    if(err) {console.log(err); return err;}
-    return res.status(200);
+db.Users.create(userData)
+.then(()=>{ return res.status(200)})
+.catch(err=>{ console.log(err); return res.status(500)});
 
-})
 
 res.sendStatus(200)
 })

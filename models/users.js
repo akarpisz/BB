@@ -8,6 +8,7 @@ module.exports = function (sequelize, DataTypes) {
           type: DataTypes.STRING,
           allowNull: false,
           primaryKey: true,
+          id: true
         },
         email: {
           type: DataTypes.STRING,
@@ -44,10 +45,11 @@ module.exports = function (sequelize, DataTypes) {
       );
     });
   
-    Users.associate = function (models) {
-      Users.hasMany(models.Posts, {
-        foreignKey: true
-      });
-    };
+    // Users.associate = function (models) {
+    //   Users.hasMany(models.Posts, {
+    //     foreignKey: true
+    //   });
+    // };
+    
     return Users;
   };
