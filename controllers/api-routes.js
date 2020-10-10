@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const db = require("../models/");
 const uniqid = require("uniqid");
-
+const jwt = require("jsonwebtoken");
 router.post("/signup", (req, res) => {
   console.log(req.body);
   const user = req.body;
@@ -33,7 +33,15 @@ router.post("/signin", (req, res) => {
     console.log(data.dataValues.hashPass);
     let auth = await db.Users.prototype.validPassword(user.password, data.dataValues.hashPass );
     console.log(auth);
-    //configure auth, returns token or authorizes here
+    if(auth) {
+      const token = jwt.sign({ user: data.dataValues.email }, process.env.SECRET);  
+      const exp = user.rememberme ? {expires: new Date(new Date.getTime()+172800000)} : {expires: new Date(new Date.getTime()+7200000)} ;
+      res.cookie('token', token, { httpOnly: true, sameSite: true, secure: true, exp})
+      res.json({ token });
+    }
+    else{
+      res.status(403).send("User not authorized");
+    }
   });
 });
 
