@@ -33,8 +33,8 @@ module.exports = function (sequelize, DataTypes) {
       }
     );
   
-    Users.prototype.validPassword = function (password) {
-      return bcrypt.compareSync(password, this.password);
+    Users.prototype.validPassword = function (password, hash) {
+      return bcrypt.compareSync(password, hash);
     };
   
     Users.addHook("beforeCreate", function (users) {
@@ -45,11 +45,11 @@ module.exports = function (sequelize, DataTypes) {
       );
     });
   
-    // Users.associate = function (models) {
-    //   Users.hasMany(models.Posts, {
-    //     foreignKey: true
-    //   });
-    // };
+    Users.associate = function (models) {
+      Users.hasMany(models.Posts, {
+        foreignKey: true
+      });
+    };
     
     return Users;
   };

@@ -2,7 +2,6 @@ import axios from "axios";
 
 export default {
     addUser: function(user){
-      console.log("API ROUTE FRONT END");
         const config = {
             method: "POST",
             url: "/api/signup",
@@ -15,8 +14,18 @@ export default {
           };
           return axios(config);
     },
-    login: function(){
+    login: function(user){
+      const config = {
+        method: "POST",
+        url:"/api/signin",
+        data: {
+          email: user.email,
+          password: user.password,
+          remember: user.rememberme
+        }
+      }
 
+      return axios(config)
     },
 
 };
