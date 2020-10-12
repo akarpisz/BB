@@ -30,17 +30,39 @@ router.post("/signin", (req, res) => {
     console.log(result);
     return result;
   }).then(async (data) => {
-    console.log(data.dataValues.hashPass);
-    let auth = await db.Users.prototype.validPassword(user.password, data.dataValues.hashPass );
-    console.log(auth);
-    if(auth) {
-      const token = jwt.sign({ user: data.dataValues.email }, process.env.SECRET);  
-      const exp = user.rememberme ? {expires: new Date(new Date.getTime()+172800000)} : {expires: new Date(new Date.getTime()+7200000)} ;
-      res.cookie('token', token, { httpOnly: true, sameSite: true, secure: true, exp})
-      res.json({ token });
-    }
-    else{
-      res.status(403).send("User not authorized");
+    try {
+      console.log(data.dataValues.hashPass);
+      let auth = await db.Users.prototype.validPassword(
+        user.password,
+        data.dataValues.hashPass
+      );
+      console.log(auth);
+      if (auth && !user.rememberme) {
+        let exp;
+        let now = new Date().getTime();
+        console.log(now);
+        if (user.rememberme) {
+          exp = { expires: new Date(now + 172800000) };
+        } else {
+          exp = { expires: new Date(now + 7200000) };
+        }
+        const token = jwt.sign(
+          { user: data.dataValues.email },
+          process.env.SECRET
+        );
+
+        res.cookie("token", token, {
+          httpOnly: true,
+          sameSite: true,
+          secure: true,
+          exp,
+        });
+        res.json({ token });
+      } else {
+        res.status(403).send("User not authorized");
+      }
+    } catch (err) {
+      console.log("catchErr: ", err);
     }
   });
 });
