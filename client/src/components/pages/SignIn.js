@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -51,11 +52,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [alertInfo, setAlert] = useState({
-    color:"",
-    message:"",
-  })
+    color: "",
+    message: "",
+  });
   const [signin, setSignin] = useState({
     email: "",
     password: "",
@@ -64,21 +66,37 @@ export default function SignIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(signin.email === "" || signin.password === ""){
-
+    if (signin.email === "" || signin.password === "") {
     }
     API.login(signin)
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          history.push("/main");
+        }
+        // else if(res.status===403) {
+
+        //   setAlert({
+        //     color:"error",
+        //     message:"There was an error. Please check that your information is correct."
+        //   })
+        //   setOpen(true);
+        //   console.log(alertInfo, " ", open)
+        // }
       })
       .catch((err) => {
         console.log(err);
+        setAlert({
+          color:"error",
+          message:"There was an error. Please check that your information is correct."
+        })
+        setOpen(true);
+        console.log(alertInfo, " ", open)
       });
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     setSignin({
       ...signin,
       [name]: value,
@@ -101,6 +119,7 @@ export default function SignIn() {
         <div className={classes.root}>
           <Collapse in={open}>
             <Alert
+              color={alertInfo.color}
               action={
                 <IconButton
                   aria-label="close"
@@ -113,19 +132,8 @@ export default function SignIn() {
                   <CloseIcon fontSize="inherit" />
                 </IconButton>
               }
-            >
-              
-            </Alert>
+            >{alertInfo.message}</Alert>
           </Collapse>
-          {/* <Button
-            disabled={open}
-            variant="outlined"
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            Re-open
-          </Button> */}
         </div>
         <form className={classes.form} noValidate>
           <TextField
@@ -155,7 +163,9 @@ export default function SignIn() {
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             name="rememberme"
-            onChange={()=>{setSignin({...signin, rememberme: !signin.rememberme})}}
+            onChange={() => {
+              setSignin({ ...signin, rememberme: !signin.rememberme });
+            }}
             label="Remember me"
           />
           <Button

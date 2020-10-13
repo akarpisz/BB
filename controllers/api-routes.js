@@ -2,6 +2,7 @@ const router = require("express").Router();
 const db = require("../models/");
 const uniqid = require("uniqid");
 const jwt = require("jsonwebtoken");
+
 router.post("/signup", (req, res) => {
   console.log(req.body);
   const user = req.body;
@@ -38,26 +39,29 @@ router.post("/signin", (req, res) => {
       );
       console.log(auth);
       if (auth && !user.rememberme) {
-        let exp;
+        let cookieConfig;
         let now = new Date().getTime();
         console.log(now);
         if (user.rememberme) {
-          exp = { expires: new Date(now + 172800000) };
+          
+          cookieConfig = { httpOnly: true,
+            sameSite: true,
+            secure: true,
+            expires: new Date(now + 172800000) };
         } else {
-          exp = { expires: new Date(now + 7200000) };
+          cookieConfig = { httpOnly: true,
+            sameSite: true,
+            secure: true,
+            expires: new Date(now + 7200000) };
         }
         const token = jwt.sign(
           { user: data.dataValues.email },
           process.env.SECRET
         );
 
-        res.cookie("token", token, {
-          httpOnly: true,
-          sameSite: true,
-          secure: true,
-          exp,
-        });
+        res.cookie("token", token, cookieConfig);
         res.json({ token });
+        res.status(200);
       } else {
         res.status(403).send("User not authorized");
       }
