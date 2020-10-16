@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme)=>({
 }));
 
 const ContactDeveloper = () => {
+    const classes = useStyles();
     return (
         <div>
             <Container>
