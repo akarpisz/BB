@@ -3,6 +3,28 @@ const db = require("../models/");
 const uniqid = require("uniqid");
 const jwt = require("jsonwebtoken");
 
+
+const extractUser = (req) => {
+	const authHeader = req.headers["authorization"];
+	const token = authHeader && authHeader.split(" ")[1];
+	let decoded = jwt.decode(token);
+	return decoded;
+};
+
+const checkToken = (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (token == null) return res.status(401).send("token error");
+  
+    jwt.verify(token, process.env.SECRET, (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+      req.user = user;
+      next();
+    });
+};
+
 router.post("/signup", (req, res) => {
   console.log(req.body);
   const user = req.body;
@@ -70,5 +92,9 @@ router.post("/signin", (req, res) => {
     }
   });
 });
+
+router.get("/posts", checkToken, (req, res)=>{
+
+})
 
 module.exports = router;

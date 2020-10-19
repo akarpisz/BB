@@ -13,11 +13,20 @@ const useStyles = makeStyles((theme)=>({
 const ContactDeveloper = () => {
     const classes = useStyles();
     return (
-        <div>
-            <Container>
-            <Grid>
-                <Typography>
+        <div style={{ paddingTop: "70px" }}>
+            <Container >
+            <Grid md>
+                <Typography variant="h4" className={classes.centered}>
+                    About The Developer:
                 </Typography> 
+                <br/>
+                <Grid className={classes.centered} xs>
+                    <Typography className={classes.root} >
+                    <span>Andrew Karpisz is a Full-Stack Developer from the University of Denver.</span><br/>
+                    <span>He specializes in the MERN stack, and is always advancing himself professionally.</span><br/>
+                    <span>He can be reached at <a href="mailto:andrew.karpisz@gmail.com">andrew.karpisz@gmail.com</a> or <a href="https://www.linkedin.com/in/the-andrew-ak" target="_blank" rel="noopener noreferrer">LinkedIn</a></span>
+                    </Typography>
+                </Grid>
             </Grid>
             </Container>
         </div>
