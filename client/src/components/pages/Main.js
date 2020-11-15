@@ -1,7 +1,7 @@
 import React,{useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Grid, Typography } from "@material-ui/core";
-
+import API from "../../util/API";
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(6, 0, 3),
@@ -16,6 +16,8 @@ const Main = () => {
   useEffect(()=>{
       console.log("useEffect hook");
       //API call for posts
+     
+      API.getPosts()
   })  
   const classes = useStyles();
 
@@ -30,7 +32,7 @@ const Main = () => {
             style={{ textAlign: "center" }}
           >
               Your Board
-              {/* this is where the array of posts willl be mapped */}
+              {/* this is where the array of posts will be mapped */}
           </Typography>
         </Grid>
       </Container>

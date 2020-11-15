@@ -27,5 +27,12 @@ export default {
 
       return axios(config)
     },
+    getPosts: function(){
+      const config = {
+        method: "GET",
+        url:"/api/posts",
+      }
 
+      return axios(config)
+    },
 };

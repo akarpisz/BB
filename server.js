@@ -6,10 +6,12 @@ const db = require("./models/");
 const path = require("path");
 const apiRoutes = require("./controllers/api-routes");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api", apiRoutes);
 
 

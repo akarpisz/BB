@@ -5,25 +5,25 @@ const jwt = require("jsonwebtoken");
 
 
 const extractUser = (req) => {
-	const authHeader = req.headers["authorization"];
-	const token = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers.cookie;
+	const token = authHeader && authHeader.split("=")[1];
 	let decoded = jwt.decode(token);
 	return decoded;
 };
 
-const checkToken = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-    if (token == null) return res.status(401).send("token error");
+// const checkToken = (req, res, next) => {
+//     const authHeader = req.headers["authorization"];
+//     const token = authHeader && authHeader.split(" ")[1];
+//     if (token == null) return res.status(401).send("token error");
   
-    jwt.verify(token, process.env.SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
-      req.user = user;
-      next();
-    });
-};
+//     jwt.verify(token, process.env.SECRET, (err, user) => {
+//       if (err) {
+//         return res.sendStatus(403);
+//       }
+//       req.user = user;
+//       next();
+//     });
+// };
 
 router.post("/signup", (req, res) => {
   console.log(req.body);
@@ -93,8 +93,21 @@ router.post("/signin", (req, res) => {
   });
 });
 
-router.get("/posts", checkToken, (req, res)=>{
+router.get("/posts", (req, res)=>{
+    
+    
+    let { user } = extractUser(req);
+    console.log(user);
 
+    db.Posts.findAll({
+      where: {
+        author: user
+      }
+    }, (err, data)=>{
+      if(err) return err;
+      console.log(data)
+      return data;
+    })
 })
 
 module.exports = router;
