@@ -6,7 +6,7 @@ import {
   Typography,
   Box,
   Container,
-  CssBaseline,
+  // CssBaseline,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 //import { compose, spacing, palette } from "@material-ui/system";
@@ -24,7 +24,7 @@ const Home = () => {
   const classes = useStyles();
   return (
     <div style={{ paddingTop: "40px" }}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <Container component="main" maxWidth="md">
         <Grid>
           <Typography

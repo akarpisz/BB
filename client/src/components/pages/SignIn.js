@@ -73,15 +73,6 @@ export default function SignIn() {
         if (res.status === 200) {
           history.push("/main");
         }
-        // else if(res.status===403) {
-
-        //   setAlert({
-        //     color:"error",
-        //     message:"There was an error. Please check that your information is correct."
-        //   })
-        //   setOpen(true);
-        //   console.log(alertInfo, " ", open)
-        // }
       })
       .catch((err) => {
         console.log(err);

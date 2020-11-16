@@ -4,6 +4,7 @@ import SignIn from "./components/pages/SignIn";
 import Home from "./components/pages/Home";
 import About from "./components/pages/About";
 import Main from "./components/pages/Main";
+import AddPost from "./components/pages/AddPost";
 import ContactDeveloper from "./components/pages/ContactDeveloper";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
@@ -30,6 +31,9 @@ function App() {
           </Route>
           <Route path="/main">
             <Main/>
+          </Route>
+          <Route path="/addpost">
+            <AddPost/>
           </Route>
         </Switch>
       </Router>

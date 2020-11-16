@@ -110,4 +110,8 @@ router.get("/posts", (req, res)=>{
     })
 })
 
+router.post("/posts", (req, res)=>{
+  console.log(req.body);
+})
+
 module.exports = router;

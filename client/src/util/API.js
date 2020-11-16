@@ -35,4 +35,15 @@ export default {
 
       return axios(config)
     },
+    newPost: function(post){
+      const config = {
+        method: "POST",
+        url:"/api/posts",
+        data: {
+          title: post.title,
+          body: post.body
+        }
+      }
+      return axios(config)
+    }
 };
