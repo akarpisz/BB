@@ -8,9 +8,11 @@ import AddPost from "./components/pages/AddPost";
 import ContactDeveloper from "./components/pages/ContactDeveloper";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
+import {UserContext} from "./util/UserContext";
 function App() {
   return (
     <div className="App">
+      {/* <UserContext.Provider value={UserContext}> */}
       <Nav/>
       <Router>
         <Switch>
@@ -37,6 +39,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
+      {/* </UserContext.Provider> */}
     </div>
   );
 }

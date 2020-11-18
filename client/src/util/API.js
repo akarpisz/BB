@@ -45,5 +45,16 @@ export default {
         }
       }
       return axios(config)
+    },
+    deletePost: function(id) {
+      const config = {
+        method: "DELETE",
+        url:  "/api/posts",
+        data: {
+          id:id,
+        }
+      }
+
+      return axios(config);
     }
 };

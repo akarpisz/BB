@@ -93,25 +93,38 @@ router.post("/signin", (req, res) => {
   });
 });
 
-router.get("/posts", (req, res)=>{
+router.get("/posts", async (req, res)=>{
     
     
     let { user } = extractUser(req);
     console.log(user);
 
-    db.Posts.findAll({
+    let posts = await db.Posts.findAll({
       where: {
         author: user
       }
     }, (err, data)=>{
-      if(err) return err;
-      console.log(data)
+      if(err) {throw err};
+
       return data;
     })
+    return res.json(posts);
 })
 
 router.post("/posts", (req, res)=>{
   console.log(req.body);
+  let {user} = extractUser(req)
+  let newPost = {
+    author: user,
+    title: req.body.title,
+    body: req.body.body,
+    id: uniqid()
+  }
+  db.Posts.create(newPost, (err, result)=>{
+    if (err) return res.status(500).send("problem with database");
+
+    return res.status(200)
+  });
 })
 
 module.exports = router;

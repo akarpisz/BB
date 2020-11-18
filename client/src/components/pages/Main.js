@@ -1,7 +1,8 @@
-import React,{useEffect} from "react";
+import React,{useEffect, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Grid, Typography } from "@material-ui/core";
+import { Container, Grid, Link, Typography, Box, Divider } from "@material-ui/core";
 import API from "../../util/API";
+import PostBox from "../PostBox";
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(6, 0, 3),
@@ -12,13 +13,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Main = () => {
-
+  const [userPosts, setPosts] = useState([])
   useEffect(()=>{
-      console.log("useEffect hook");
       //API call for posts
      
-      API.getPosts()
-  })  
+      API.getPosts().then(res=>{
+        console.log(res.data);
+
+        setPosts(res.data)
+      })
+  }, []);  
   const classes = useStyles();
 
   return (
@@ -32,8 +36,22 @@ const Main = () => {
             style={{ textAlign: "center" }}
           >
               Your Board
-              {/* this is where the array of posts will be mapped */}
+              
+              
           </Typography>
+          <Box variant="span" className={classes.centered}>
+          {" "}<Link href="/addpost">Add Post</Link>
+          </Box>
+          <Divider/>
+          {/* this is where the array of posts will be mapped */}
+      {userPosts.map(p=>{
+        return (
+          <div>
+          <PostBox key={p.id} props={p}/>
+          <br />
+          </div>
+        )
+      })}
         </Grid>
       </Container>
     </div>

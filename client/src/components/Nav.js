@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -20,6 +20,8 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import HomeIcon from  '@material-ui/icons/Home';
 
+// import {useContext} from 'react';
+// import {UserContext} from '../util/UserContext';
 //add clickawaylistener
 
 const drawerWidth = 240;
@@ -85,6 +87,12 @@ export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+  // const userState= useContext(UserContext)
+
+  // useEffect(()=>{
+  //   console.log(userState)
+  // })
 
   const handleDrawerOpen = () => {
     setOpen(true);
