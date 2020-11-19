@@ -15,7 +15,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api", apiRoutes);
 app.use(express.static(path.join(__dirname, "client/build")));
-
+app.get("/*", (req, res)=>{
+	return res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
 
 db.sequelize.sync().then(function() {
     app.listen(PORT, function() {
