@@ -14,6 +14,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api", apiRoutes);
+app.use(express.static(path.join(__dirname, "client/build")));
 
 
 db.sequelize.sync().then(function() {
