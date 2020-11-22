@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import SignUp from "./components/pages/SignUp";
 import SignIn from "./components/pages/SignIn";
 import Home from "./components/pages/Home";
@@ -9,10 +9,16 @@ import ContactDeveloper from "./components/pages/ContactDeveloper";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import {UserContext} from "./util/UserContext";
+
 function App() {
+  const [userData, setUser] = useState({
+    loggedIn:false
+  });
+  const val = {userData, setUser}
+
   return (
     <div className="App">
-      {/* <UserContext.Provider value={UserContext}> */}
+      <UserContext.Provider value={val}>
       <Nav/>
       <Router>
         <Switch>
@@ -39,7 +45,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-      {/* </UserContext.Provider> */}
+      </UserContext.Provider>
     </div>
   );
 }

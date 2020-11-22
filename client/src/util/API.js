@@ -44,7 +44,7 @@ export default {
           body: post.body
         }
       }
-      return axios(config)
+      return axios(config);
     },
     deletePost: function(id) {
       const config = {

@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import {
   // Grid,
   // Divider,
-  // Link,
+  Link,
   // Typography,
   // Box,
   Container,
   Button,
   TextField,
+  Grid,
+  Typography,
   //FormControlLabel,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -59,17 +61,20 @@ const AddPost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(newPost);
+    
     API.newPost(newPost).then((res) => {
-      if (res.status === 200) {
+      console.log(res)
         history.push("/main");
-      }
+      
     });
   };
 
   return (
-    <div style={{ paddingTop: "60px" }}>
+    <div style={{ paddingTop: "75px" }}>
       <Container>
+        <Typography variant="span">
+          <Link href="/main">Back</Link>
+        </Typography>
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"

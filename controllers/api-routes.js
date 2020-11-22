@@ -3,19 +3,18 @@ const db = require("../models/");
 const uniqid = require("uniqid");
 const jwt = require("jsonwebtoken");
 
-
 const extractUser = (req) => {
   const authHeader = req.headers.cookie;
-	const token = authHeader && authHeader.split("=")[1];
-	let decoded = jwt.decode(token);
-	return decoded;
+  const token = authHeader && authHeader.split("=")[1];
+  let decoded = jwt.decode(token);
+  return decoded;
 };
 
 // const checkToken = (req, res, next) => {
 //     const authHeader = req.headers["authorization"];
 //     const token = authHeader && authHeader.split(" ")[1];
 //     if (token == null) return res.status(401).send("token error");
-  
+
 //     jwt.verify(token, process.env.SECRET, (err, user) => {
 //       if (err) {
 //         return res.sendStatus(403);
@@ -65,16 +64,19 @@ router.post("/signin", (req, res) => {
         let now = new Date().getTime();
         console.log(now);
         if (user.rememberme) {
-          
-          cookieConfig = { httpOnly: true,
+          cookieConfig = {
+            httpOnly: true,
             sameSite: true,
             secure: true,
-            expires: new Date(now + 172800000) };
+            expires: new Date(now + 172800000),
+          };
         } else {
-          cookieConfig = { httpOnly: true,
+          cookieConfig = {
+            httpOnly: true,
             sameSite: true,
             secure: true,
-            expires: new Date(now + 7200000) };
+            expires: new Date(now + 7200000),
+          };
         }
         const token = jwt.sign(
           { user: data.dataValues.email },
@@ -93,38 +95,51 @@ router.post("/signin", (req, res) => {
   });
 });
 
-router.get("/posts", async (req, res)=>{
-    
-    
-    let { user } = extractUser(req);
-    console.log(user);
+router.get("/posts", async (req, res) => {
+  let { user } = extractUser(req);
+  console.log(user);
 
-    let posts = await db.Posts.findAll({
+  let posts = await db.Posts.findAll(
+    {
       where: {
-        author: user
+        author: user,
+      },
+    },
+    (err, data) => {
+      if (err) {
+        throw err;
       }
-    }, (err, data)=>{
-      if(err) {throw err};
 
       return data;
-    })
-    return res.json(posts);
-})
+    }
+  );
+  return res.json(posts);
+});
 
-router.post("/posts", (req, res)=>{
+router.post("/posts", (req, res) => {
   console.log(req.body);
-  let {user} = extractUser(req)
+  let { user } = extractUser(req);
   let newPost = {
     author: user,
     title: req.body.title,
     body: req.body.body,
-    id: uniqid()
-  }
-  db.Posts.create(newPost, (err, result)=>{
-    if (err) return res.status(500).send("problem with database");
-
-    return res.status(200)
+    id: uniqid(),
+  };
+  
+  db.Posts.create(newPost, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    return res.status(200).json(result)
   });
+
+  return res.status(200)
+
+  
+});
+
+router.delete("/posts", (req, res)=>{
+  
 })
 
 module.exports = router;

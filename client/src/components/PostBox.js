@@ -23,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
 export default function PostBox({ props }) {
   const classes = useStyles();
 
-  const handleDel = (e) => {
-    e.preventDefault();
+  const handleDel = (id) => {
+    console.log(id)
   };
   //key = post.id
   //title = post.title
   //body= post.body
   return (
-    <div>
+    <div key={props.id}>
       <Card key={props.id}>
         <CardContent>
           <Typography className={classes.title} variant="h6" component="h2">
@@ -43,7 +43,7 @@ export default function PostBox({ props }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button variant="outlined" color="secondary" onClick={handleDel}>Delete</Button>
+          <Button variant="outlined" color="secondary" onClick={()=>{handleDel(props.id)}}>Delete</Button>
         </CardActions>
       </Card>
     </div>

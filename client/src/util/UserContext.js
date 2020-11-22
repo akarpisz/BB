@@ -1,11 +1,9 @@
-// import React, { createContext, useState } from "react";
+import { createContext } from "react";
 
-// const [userData, setUser] = useState({
-//   loggedIn: false,
-//   user: "",
-// });
-
-// export const UserContext = createContext({ userData, setUser });
+export const UserContext = createContext({
+    loggedIn: false,
+    setUser: ()=>{}
+});
 
 // export const UserContextProvider = ({ children }) => {
 //   return (

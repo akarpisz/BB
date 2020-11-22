@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -18,6 +18,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
 import API from "../../util/API";
+import {UserContext} from "../../util/UserContext";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -64,6 +66,8 @@ export default function SignIn() {
     rememberme: false,
   });
 
+  const {userData, setUser} = useContext(UserContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (signin.email === "" || signin.password === "") {
@@ -71,6 +75,7 @@ export default function SignIn() {
     API.login(signin)
       .then((res) => {
         if (res.status === 200) {
+          setUser({...userData, loggedIn:true})
           history.push("/main");
         }
       })
