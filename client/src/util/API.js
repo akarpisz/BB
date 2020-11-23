@@ -56,5 +56,12 @@ export default {
       }
 
       return axios(config);
+    },
+    logout: function(){
+      const config = {
+        method: "GET",
+        url: "/api/logout",
+      }
+      return axios(config);
     }
 };

@@ -125,21 +125,30 @@ router.post("/posts", (req, res) => {
     body: req.body.body,
     id: uniqid(),
   };
-  
+
   db.Posts.create(newPost, (err, result) => {
     if (err) {
       throw err;
     }
-    return res.status(200).json(result)
+    return res.status(200).json(result);
   });
 
-  return res.status(200)
-
-  
+  return res.status(200);
 });
 
-router.delete("/posts", (req, res)=>{
-  
-})
+router.delete("/posts", (req, res) => {});
+
+router.get("/logout", (req, res) => {
+  const cookieConfig = {
+    httpOnly: true,
+    sameSite: false,
+    secure: true,
+    expires: new Date(Date.now()),
+  };
+  res
+  .cookie("token", "", cookieConfig)
+  .status(200)
+  .send("logged out");
+});
 
 module.exports = router;

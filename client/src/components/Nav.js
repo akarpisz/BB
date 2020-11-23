@@ -19,9 +19,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import HomeIcon from "@material-ui/icons/Home";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
 import { UserContext } from "../util/UserContext";
 import { useContext } from "react";
+
+import API from "../util/API";
 //add clickawaylistener
 
 const drawerWidth = 240;
@@ -104,8 +107,10 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleLogout = () => {
-    console.log(document.cookie.token);
-  };
+    API.logout().then(res=>{
+      console.log(res)
+    })
+  }
 
   return (
     <div className={classes.root}>
@@ -159,39 +164,40 @@ export default function PersistentDrawerLeft() {
                 <ListItemText primary="Home" />
               </ListItem>
             </Link>
-                {userData.loggedIn ? 
-                  (<>
-                    {["Main", "Add Post"].map((text, index) => (
-                    <Link key={text} href={text.replace(" ", "").toLowerCase()}>
-                      <ListItem button>
-                        <ListItemIcon>
-                          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                      </ListItem>
-                    </Link>
-                    
-                  ))}
-                  <Divider/>
-                  <ListItem button onClick={handleLogout}>
-                      Logout
-                  </ListItem>
-                  </>
-            ):(
+            {userData.loggedIn ? (
               <>
-              {["Sign In", "Sign up"].map((text, index) => (
-              <Link key={text} href={text.replace(" ", "").toLowerCase()}>
-                <ListItem button>
+                {["Main", "Add Post"].map((text, index) => (
+                  <Link key={text} href={text.replace(" ", "").toLowerCase()}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItem>
+                  </Link>
+                ))}
+                <Divider />
+                <ListItem button onClick={handleLogout}>
                   <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    <LockOutlinedIcon />
                   </ListItemIcon>
-                  <ListItemText primary={text} />
+                  <ListItemText>Logout</ListItemText>
                 </ListItem>
-              </Link>
-            ))}
-            </>
-            )
-            }
+              </>
+            ) : (
+              <>
+                {["Sign In", "Sign up"].map((text, index) => (
+                  <Link key={text} href={text.replace(" ", "").toLowerCase()}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItem>
+                  </Link>
+                ))}
+              </>
+            )}
           </List>
           <Divider />
           <List>
