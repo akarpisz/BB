@@ -8,7 +8,7 @@ import AddPost from "./components/pages/AddPost";
 import ContactDeveloper from "./components/pages/ContactDeveloper";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Nav from "./components/Nav";
-import {UserContext} from "./util/UserContext";
+import UserContextProvider from "./util/UserContextProvider";
 
 function App() {
   const [userData, setUser] = useState({
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      <UserContext.Provider value={val}>
+      <UserContextProvider>
       <Nav/>
       <Router>
         <Switch>
@@ -45,7 +45,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-      </UserContext.Provider>
+      </UserContextProvider>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -18,7 +18,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
 import API from "../../util/API";
-import {UserContext} from "../../util/UserContext";
+import UserContext from "../../util/UserContext";
 
 function Copyright() {
   return (
@@ -66,7 +66,13 @@ export default function SignIn() {
     rememberme: false,
   });
 
-  const {userData, setUser} = useContext(UserContext);
+  const {userState, userDispatch} = useContext(UserContext);
+
+  useEffect(()=>{
+    if(userState.loggedIn){
+      history.push("/main");
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,7 +81,7 @@ export default function SignIn() {
     API.login(signin)
       .then((res) => {
         if (res.status === 200) {
-          setUser({...userData, loggedIn:true})
+          userDispatch({type: "login"});
           history.push("/main");
         }
       })

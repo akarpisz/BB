@@ -21,7 +21,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import HomeIcon from "@material-ui/icons/Home";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
-import { UserContext } from "../util/UserContext";
+import UserContext from "../util/UserContext";
 import { useContext } from "react";
 
 import API from "../util/API";
@@ -91,7 +91,7 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const { userData, setUser } = useContext(UserContext);
+  const { userState, userDispatch } = useContext(UserContext);
   // const userState= useContext(UserContext)
 
   // useEffect(()=>{
@@ -107,10 +107,11 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleLogout = () => {
-    API.logout().then(res=>{
-      console.log(res)
-    })
-  }
+    API.logout().then((res) => {
+      userDispatch({type: "logout"});
+      console.log(res);
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -164,7 +165,7 @@ export default function PersistentDrawerLeft() {
                 <ListItemText primary="Home" />
               </ListItem>
             </Link>
-            {userData.loggedIn ? (
+            {userState.loggedIn ? (
               <>
                 {["Main", "Add Post"].map((text, index) => (
                   <Link key={text} href={text.replace(" ", "").toLowerCase()}>
